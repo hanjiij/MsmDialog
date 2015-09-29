@@ -27,6 +27,7 @@ import com.hj.smsdialog.Config;
 import com.hj.smsdialog.R;
 import com.hj.smsdialog.utils.DataUtil;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -132,10 +133,12 @@ public class smsDialogService extends Service {
                     // 判断是否为手机号或通讯录中是否存在，若不是则检测内容是否有数字验证码
                     if (isMobileNO(address) || isCursor) {
                         // 若通讯录中存在该号码，则address修改为联系人姓名
+                        String addressNO = address;
+
                         if (isCursor) {
                             address = cursor.getString(0);
                         }
-                        setDialog(address, body, date);
+                        setDialog(address, body, date, addressNO);
 //                        dateStr = date;
                     } else {
 
@@ -171,7 +174,7 @@ public class smsDialogService extends Service {
                             dialog.getWindow().setAttributes(params);
 
                         } else {
-                            setDialog(address, body, date);
+                            setDialog(address, body, date, address);
 //                            dateStr = date;
                         }
                     }
@@ -207,7 +210,7 @@ public class smsDialogService extends Service {
      * @param body  文本内容
      * @param date  发送的时间
      */
-    private void setDialog(String title, String body, String date) {
+    private void setDialog(String title, String body, String date, final String addressNo) {
 
         Builder builder = new Builder(getApplicationContext());
         final View dialog_view =
@@ -235,6 +238,9 @@ public class smsDialogService extends Service {
             public void onClick(View v) {
 
                 EditText editText = (EditText) dialog_view.findViewById(R.id.dialog_send_body);
+
+                sendSMS(addressNo, editText.getText().toString());
+
                 Toast.makeText(smsDialogService.this, editText.getText().toString(),
                         Toast.LENGTH_SHORT).show();
                 dialog.cancel();
@@ -260,6 +266,23 @@ public class smsDialogService extends Service {
         Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
         Matcher m = p.matcher(mobiles);
         return m.matches();
+    }
+
+
+    /**
+     * 直接调用短信接口发短信
+     *
+     * @param phoneNumber 号码
+     * @param message     发送内容
+     */
+    public void sendSMS(String phoneNumber, String message) {
+        //获取短信管理器
+        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+        //拆分短信内容（手机短信长度限制）
+        List<String> divideContents = smsManager.divideMessage(message);
+        for (String text : divideContents) {
+            smsManager.sendTextMessage(phoneNumber, null, text, null, null);
+        }
     }
 }
 
