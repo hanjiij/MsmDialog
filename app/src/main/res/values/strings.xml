@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SmsDialog</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="smsdialog">短信弹窗</string>
+    <string name="smsdialog_light">短信亮屏</string>
+    <string name="smsdialog_identify">验证码截取</string>
+</resources>
