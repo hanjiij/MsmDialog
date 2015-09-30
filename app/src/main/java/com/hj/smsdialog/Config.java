@@ -11,6 +11,7 @@ public class Config {
     public static String IS_DIALOG_SMS = "is_dialog_sms";
     public static String IS_DIALOG_SMS_IDENTIFY = "is_dialog_sms_identify";
     public static String IS_DIALOG_SMS_LIGHT = "is_dialog_sms_light";
+    public static String IS_DIALOG_SMS_START_UP = "is_dialog_sms_start_up";
 
     /**
      * 判断服务是否启动

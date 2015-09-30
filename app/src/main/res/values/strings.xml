@@ -6,4 +6,5 @@
     <string name="smsdialog">短信弹窗</string>
     <string name="smsdialog_light">短信亮屏</string>
     <string name="smsdialog_identify">验证码截取</string>
+    <string name="smsdialog_start_up">开机启动</string>
 </resources>

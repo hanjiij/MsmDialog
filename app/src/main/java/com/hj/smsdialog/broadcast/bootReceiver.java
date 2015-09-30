@@ -16,8 +16,10 @@ public class bootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
 
-        if ((!Config.isMyServiceRunning(context, "com.hj.smsdialog.service.smsDialogService")) &&
-                DataUtil.getInstance(context).getConfig(Config.IS_DIALOG_SMS)) {
+        if (DataUtil.getInstance(context).getConfig(Config.IS_DIALOG_SMS) &&
+                DataUtil.getInstance(context).getConfig(Config.IS_DIALOG_SMS_START_UP) &&
+                (!Config.isMyServiceRunning(context,
+                        "com.hj.smsdialog.service.smsDialogService"))) {
             Intent service = new Intent(context, smsDialogService.class);
             context.startService(service);
         }

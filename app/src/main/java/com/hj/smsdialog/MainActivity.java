@@ -14,6 +14,7 @@ public class MainActivity extends ActionBarActivity {
     private Switch smsDialogs;
     private Switch smsdialog_identify;
     private Switch smsdialog_light;
+    private Switch smsdialog_start_up;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,15 @@ public class MainActivity extends ActionBarActivity {
                         .setConfig(Config.IS_DIALOG_SMS_LIGHT, isChecked);
             }
         });
+
+        // 是否开机启动
+        smsdialog_start_up.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DataUtil.getInstance(MainActivity.this)
+                        .setConfig(Config.IS_DIALOG_SMS_START_UP, isChecked);
+            }
+        });
     }
 
     /**
@@ -73,6 +83,7 @@ public class MainActivity extends ActionBarActivity {
         smsDialogs = (Switch) findViewById(R.id.smsdialog);
         smsdialog_identify = (Switch) findViewById(R.id.smsdialog_identify);
         smsdialog_light = (Switch) findViewById(R.id.smsdialog_light);
+        smsdialog_start_up= (Switch) findViewById(R.id.smsdialog_start_up);
 
         boolean isOpen = DataUtil.getInstance(MainActivity.this).getConfig(Config.IS_DIALOG_SMS);
         if (isOpen) {
@@ -90,5 +101,7 @@ public class MainActivity extends ActionBarActivity {
                 DataUtil.getInstance(MainActivity.this).getConfig(Config.IS_DIALOG_SMS_IDENTIFY));
         smsdialog_light.setChecked(
                 DataUtil.getInstance(MainActivity.this).getConfig(Config.IS_DIALOG_SMS_LIGHT));
+        smsdialog_start_up.setChecked(
+                DataUtil.getInstance(MainActivity.this).getConfig(Config.IS_DIALOG_SMS_START_UP));
     }
 }
